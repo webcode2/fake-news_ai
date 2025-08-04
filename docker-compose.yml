@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./
+    container_name: fake-news-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src  # 👉 bind-mount for live reload
+    networks:
+      - app-network
+
+
+
+
+networks:
+  app-network:
+    driver: bridge

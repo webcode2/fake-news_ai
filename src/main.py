@@ -1,12 +1,28 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+from src.services.sentiment_service import SentimentService
 from src.config.setting import settings
 from src.routes import authRoute, messageRoute
 
 
-app = FastAPI(
-    title=settings.app_name,
-    debug=settings.debug
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize sentiment service
+    app.state.sentiment_service = SentimentService()
+    yield
+    # Optional: Cleanup logic here
+
+app = FastAPI(lifespan=lifespan, title=settings.PROJECT_NAME,
+              version=settings.VERSION)
+# CORS configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this to your needs
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
