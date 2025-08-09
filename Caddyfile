@@ -1,0 +1,17 @@
+{
+    debug
+    auto_https disable_redirects
+    admin localhost:2019
+}
+
+fake-news.codeabs.com { 
+# :80 { 
+    
+    
+    # Regular HTTP traffic
+    reverse_proxy quest_server:8000 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote}
+    # header_down Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    }
+}

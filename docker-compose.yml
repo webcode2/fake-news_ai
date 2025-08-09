@@ -11,6 +11,27 @@ services:
       - ./src:/app/src  # 👉 bind-mount for live reload
     networks:
       - app-network
+  
+  caddy:
+    image: caddy:alpine  # Lightweight Caddy image
+    container_name: caddy
+    ports:
+      - "80:80"    # HTTP
+      - "443:443"  # HTTPS
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile  # Mount Caddyfile for configuration
+      - caddy_data:/data  # Persistent storage for TLS certificates
+      - caddy_config:/config  # Persistent storage for Caddy configuration
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: always
+
+
+volumes:
+  caddy_config:
+  caddy_data:
 
 
 
