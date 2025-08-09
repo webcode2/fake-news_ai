@@ -9,7 +9,7 @@ fake-news.codeabs.com {
     
     
     # Regular HTTP traffic
-    reverse_proxy quest_server:8000 {
+    reverse_proxy backend:8000 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
     # header_down Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
