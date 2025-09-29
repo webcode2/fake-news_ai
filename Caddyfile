@@ -1,6 +1,6 @@
 {
     debug
-    auto_https disable_redirects
+   # auto_https disable_redirects
     admin localhost:2019
 }
 
